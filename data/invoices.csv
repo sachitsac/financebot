@@ -1,0 +1,31 @@
+date,vendor,description,amount,po_number,category
+2026-01-03,Acme Office Supplies,Stationery and pens,245.00,PO-2026-001,Office
+2026-01-05,CloudHost Pro,Monthly hosting Jan,1890.00,PO-2026-002,Software
+2026-01-07,Metro Cabs,Client visit transport,87.50,PO-2026-003,Travel
+2026-01-08,Cafe Society,Team lunch meeting,156.00,PO-2026-004,Meals
+2026-01-10,DataVault Inc,Data backup service,420.00,PO-2026-005,Software
+2026-01-12,Acme Office Supplies,Printer cartridges,189.00,PO-2026-006,Office
+2026-01-14,Metro Cabs,Airport transfer,92.00,PO-2026-007,Travel
+2026-01-15,Acme Office Supplies,Stationery and pens,245.00,PO-2026-008,Office
+2026-01-17,TechLearn Academy,AWS certification course,1250.00,PO-2026-009,Training
+2026-01-19,CloudHost Pro,Premium support add-on,890.00,PO-2026-010,Software
+2026-01-20,Cafe Society,Client dinner,312.00,PO-2026-011,Meals
+2026-01-22,Metro Cabs,Conference transport,78.00,PO-2026-012,Travel
+2026-01-23,DataVault Inc,Emergency data recovery,4200.00,PO-2026-013,Software
+2026-01-24,Acme Office Supplies,Standing desk,799.00,,Office
+2026-01-25,Metro Cabs,Client visit transport,87.50,PO-2026-015,Travel
+2026-01-27,CloudHost Pro,Monthly hosting Feb,1890.00,PO-2026-016,Software
+2026-01-28,Fresh Catering Co,Board meeting lunch,485.00,PO-2026-017,Meals
+2026-01-29,Metro Cabs,Airport transfer,445.00,,Travel
+2026-01-30,Acme Office Supplies,Ergonomic keyboards x5,1450.00,PO-2026-019,Office
+2026-02-01,CloudHost Pro,Monthly hosting Feb,1890.00,PO-2026-020,Software
+2026-02-03,DataVault Inc,Monthly backup Feb,420.00,PO-2026-021,Software
+2026-02-05,Cafe Society,Team lunch,148.00,PO-2026-022,Meals
+2026-02-07,Metro Cabs,Client transport,95.00,PO-2026-023,Travel
+2026-02-08,TechLearn Academy,Leadership workshop,2800.00,,Training
+2026-02-10,Acme Office Supplies,Monitor arms x10,2890.00,PO-2026-025,Office
+2026-02-12,Fresh Catering Co,Valentine's team event,1850.00,PO-2026-026,Meals
+2026-02-14,CloudHost Pro,Bandwidth overage charge,3400.00,PO-2026-027,Software
+2026-02-15,Metro Cabs,Client visit,82.00,PO-2026-028,Travel
+2026-02-18,DataVault Inc,Monthly backup Feb,420.00,PO-2026-029,Software
+2026-02-20,Cafe Society,Team lunch,165.00,PO-2026-030,Meals

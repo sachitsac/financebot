@@ -1,0 +1,27 @@
+date,description,amount,category,employee
+2026-01-05,Uber to client meeting,45.50,Travel,Sarah Chen
+2026-01-07,Team lunch at cafe,128.00,Meals,Marcus Webb
+2026-01-08,Figma subscription,22.00,Software,Sarah Chen
+2026-01-10,Office supplies - pens and notebooks,34.95,Office,Lisa Tran
+2026-01-12,AWS hosting Jan,189.00,Software,Marcus Webb
+2026-01-14,Conference registration - FinTech Summit,890.00,Training,Sarah Chen
+2026-01-15,Client dinner,215.00,Meals,Marcus Webb
+2026-01-18,Return flight to Sydney,385.00,Travel,Lisa Tran
+2026-01-20,LinkedIn ads campaign,450.00,Marketing,Sarah Chen
+2026-01-22,Slack subscription,12.50,Software,Marcus Webb
+2026-01-23,Uber to airport,62.00,Travel,Lisa Tran
+2026-01-25,Team building lunch,340.00,Meals,Marcus Webb
+2026-01-28,Standing desk,799.00,Office,Sarah Chen
+2026-01-30,Udemy course - Advanced Node.js,49.99,Training,Lisa Tran
+2026-02-01,Hotel - Melbourne trip,280.00,Travel,Sarah Chen
+2026-02-03,Morning coffee run for team,28.50,Meals,Marcus Webb
+2026-02-05,GitHub Enterprise,21.00,Software,Lisa Tran
+2026-02-07,Google Ads Feb campaign,620.00,Marketing,Marcus Webb
+2026-02-10,Ergonomic keyboard,189.00,Office,Sarah Chen
+2026-02-12,Flight to Brisbane,310.00,Travel,Lisa Tran
+2026-02-14,Valentine's team lunch,175.00,Meals,Marcus Webb
+2026-02-15,Vercel Pro subscription,20.00,Software,Sarah Chen
+2026-02-18,O'Reilly books subscription,39.99,Training,Lisa Tran
+2026-02-20,Taxi from airport,55.00,Travel,Sarah Chen
+2026-02-22,Facebook ads - product launch,850.00,Marketing,Marcus Webb
+2026-02-25,Monitor arm,89.95,Office,Lisa Tran

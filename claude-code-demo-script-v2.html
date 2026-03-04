@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code Brown Bag — Demo Script v2</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0c0c0f;
+  --surface: #16161b;
+  --border: #2a2a35;
+  --text: #e8e6f0;
+  --text-muted: #8b89a0;
+  --accent: #d4a574;
+  --accent-dim: rgba(212,165,116,0.12);
+  --green: #7ec699;
+  --green-dim: rgba(126,198,153,0.12);
+  --blue: #7aa2f7;
+  --blue-dim: rgba(122,162,247,0.12);
+  --red: #f7768e;
+  --red-dim: rgba(247,118,142,0.12);
+  --purple: #bb9af7;
+  --purple-dim: rgba(187,154,247,0.12);
+  --yellow: #e0af68;
+  --yellow-dim: rgba(224,175,104,0.12);
+  --cyan: #7dcfff;
+  --cyan-dim: rgba(125,207,255,0.12);
+  --orange: #ff9e64;
+  --orange-dim: rgba(255,158,100,0.12);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+.container { max-width: 920px; margin: 0 auto; padding: 3rem 2rem 6rem; }
+
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 2.5rem 0 3rem;
+  position: relative;
+}
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 15%;
+  right: 15%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+}
+.header h1 {
+  font-size: 2.6rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, var(--accent), var(--yellow));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.header .subtitle { font-size: 1.1rem; color: var(--text-muted); font-weight: 300; }
+.header .meta { display: flex; justify-content: center; gap: 2rem; margin-top: 1.5rem; font-size: 0.85rem; color: var(--text-muted); }
+
+.structure-card {
+  background: linear-gradient(135deg, var(--surface), #1a1a22);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 2rem;
+  margin-bottom: 3rem;
+  position: relative;
+  overflow: hidden;
+}
+.structure-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--yellow), var(--orange));
+}
+.structure-card h2 {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 1.25rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.structure-timeline { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; }
+.tl-item {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem;
+  text-align: center;
+}
+.tl-item:last-child { background: var(--orange-dim); border-color: rgba(255,158,100,0.3); }
+.tl-item .tl-time { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.3rem; font-family: 'JetBrains Mono', monospace; }
+.tl-item .tl-label { font-weight: 600; font-size: 0.85rem; }
+.tl-item .tl-desc { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem; }
+.tl-item:last-child .tl-label { color: var(--orange); }
+
+.section { margin-bottom: 3rem; }
+.section-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem; }
+.section-number { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; flex-shrink: 0; }
+.section-title { font-size: 1.3rem; font-weight: 700; letter-spacing: -0.02em; }
+.section-time { margin-left: auto; font-size: 0.75rem; color: var(--text-muted); background: var(--surface); padding: 0.2rem 0.65rem; border-radius: 20px; border: 1px solid var(--border); white-space: nowrap; font-family: 'JetBrains Mono', monospace; }
+
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 0.75rem; }
+.card-label { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.5rem; }
+.card p, .card li { color: var(--text-muted); font-size: 0.92rem; line-height: 1.7; }
+.card ul { list-style: none; padding: 0; }
+.card ul li { padding: 0.25rem 0; padding-left: 1.5rem; position: relative; }
+.card ul li::before { content: '›'; position: absolute; left: 0.4rem; color: var(--accent); font-weight: 600; }
+
+.terminal { background: #0d1117; border: 1px solid #21262d; border-radius: 10px; margin: 0.75rem 0; overflow: hidden; }
+.terminal-bar { background: #161b22; padding: 0.45rem 1rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 1px solid #21262d; }
+.terminal-dot { width: 9px; height: 9px; border-radius: 50%; }
+.terminal-dot.r { background: #f85149; }
+.terminal-dot.y { background: #d29922; }
+.terminal-dot.g { background: #3fb950; }
+.terminal-title { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: #8b949e; margin-left: 0.5rem; }
+.terminal pre { padding: 1.1rem 1.25rem; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; line-height: 1.85; color: #c9d1d9; overflow-x: auto; }
+.terminal .prompt { color: var(--green); }
+.terminal .comment { color: #6e7681; }
+.terminal .output { color: #8b949e; }
+
+.tag { display: inline-flex; padding: 0.15rem 0.6rem; border-radius: 5px; font-size: 0.72rem; font-weight: 600; }
+.tag-hook { background: var(--red-dim); color: var(--red); }
+.tag-skill { background: var(--blue-dim); color: var(--blue); }
+.tag-command { background: var(--green-dim); color: var(--green); }
+.tag-claudemd { background: var(--purple-dim); color: var(--purple); }
+
+.narration { background: var(--accent-dim); border-left: 3px solid var(--accent); padding: 0.9rem 1.25rem; border-radius: 0 8px 8px 0; margin: 0.75rem 0; font-size: 0.88rem; color: var(--accent); font-style: italic; }
+.narration strong { font-style: normal; color: var(--text); }
+
+.key-point { background: var(--cyan-dim); border: 1px solid rgba(125,207,255,0.2); border-radius: 10px; padding: 0.9rem 1.25rem; margin: 0.75rem 0; font-size: 0.88rem; color: var(--cyan); }
+.key-point strong { color: var(--text); }
+
+.wow-banner { background: linear-gradient(135deg, rgba(255,158,100,0.08), rgba(247,118,142,0.06)); border: 2px solid rgba(255,158,100,0.25); border-radius: 16px; padding: 2rem; margin-bottom: 1.5rem; text-align: center; }
+.wow-banner h3 { font-size: 1.6rem; font-weight: 800; color: var(--orange); margin-bottom: 0.5rem; }
+.wow-banner p { color: var(--text-muted); font-size: 0.95rem; }
+
+.finale-prompt { background: linear-gradient(135deg, #1a1520, #16161b); border: 2px solid rgba(187,154,247,0.3); border-radius: 14px; padding: 2rem; margin: 1rem 0; position: relative; }
+.finale-prompt::before { content: 'THE PROMPT'; position: absolute; top: -10px; left: 24px; background: var(--bg); padding: 0 10px; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em; color: var(--purple); }
+.finale-prompt p { font-size: 1.02rem; color: var(--text); line-height: 1.8; }
+
+.feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin: 0.75rem 0; }
+.feature-grid .card { margin-bottom: 0; }
+
+@media (max-width: 640px) {
+  .structure-timeline { grid-template-columns: 1fr 1fr; }
+  .feature-grid { grid-template-columns: 1fr; }
+  .header h1 { font-size: 2rem; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <h1>Claude Code Brown Bag</h1>
+  <div class="subtitle">Demo Script v2 — "Build something real, in real-time"</div>
+  <div class="meta">
+    <span>⏱ 20 min recording + 10 min Q&A</span>
+    <span>🎯 Financial Company — Digital Dept</span>
+  </div>
+</div>
+
+<div class="structure-card">
+  <h2>Demo Arc — Build to a Finale</h2>
+  <div class="structure-timeline">
+    <div class="tl-item">
+      <div class="tl-time">0:00 — 5:00</div>
+      <div class="tl-label">Setup</div>
+      <div class="tl-desc">Claude Code + CLAUDE.md</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">5:00 — 10:00</div>
+      <div class="tl-label">Features</div>
+      <div class="tl-desc">Hooks · Skills · Commands</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">10:00 — 12:00</div>
+      <div class="tl-label">Set the Stage</div>
+      <div class="tl-desc">"One prompt. Real problem."</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">12:00 — 20:00</div>
+      <div class="tl-label">🔥 FINALE</div>
+      <div class="tl-desc">Invoice anomaly detector</div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== ACT 1 ====== -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number" style="background: var(--purple-dim); color: var(--purple);">1</div>
+    <div class="section-title">What is Claude Code + CLAUDE.md</div>
+    <div class="section-time">0:00 — 5:00</div>
+  </div>
+
+  <div class="narration"><strong>Say:</strong> "Claude Code isn't a chatbot. It lives in your terminal, reads your entire codebase, runs real commands, and builds real things. Let me show you a project it already understands."</div>
+
+  <div class="terminal">
+    <div class="terminal-bar"><div class="terminal-dot r"></div><div class="terminal-dot y"></div><div class="terminal-dot g"></div><span class="terminal-title">Launch</span></div>
+    <pre><span class="prompt">$</span> cd financebot && claude
+
+<span class="output">📊 FinanceBot Dev Session | Branch: main | Node: v20.x | 2026-02-28</span>
+<span class="comment"># ^ SessionStart hook fired automatically</span>
+
+<span class="prompt">></span> What do you know about this project?
+<span class="comment"># Claude responds with full context from CLAUDE.md — stack, structure, conventions</span>
+
+<span class="prompt">></span> Run the expense report for January
+<span class="comment"># Runs: node src/index.js --month=2026-01 — knows the command from CLAUDE.md</span></pre>
+  </div>
+
+  <div class="key-point"><strong>🎯 Key point:</strong> CLAUDE.md is your project's memory — version-controlled, shared with the team. Every session starts with full context. No explaining.</div>
+</div>
+
+<!-- ====== ACT 2 ====== -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number" style="background: var(--blue-dim); color: var(--blue);">2</div>
+    <div class="section-title">Power Features — 90 Seconds Each</div>
+    <div class="section-time">5:00 — 10:00</div>
+  </div>
+
+  <div class="narration"><strong>Say:</strong> "CLAUDE.md is the brain. But Claude Code has three more features that turn it into a real platform. Quick-fire tour."</div>
+
+  <!-- HOOKS -->
+  <div class="card" style="border-left: 3px solid var(--red);">
+    <div class="card-label" style="color: var(--red);">⚡ HOOKS — Automatic Guardrails</div>
+    <p>Demo the <strong>Bash safety hook</strong> — reliable, visible, dramatic:</p>
+  </div>
+
+  <div class="terminal">
+    <div class="terminal-bar"><div class="terminal-dot r"></div><div class="terminal-dot y"></div><div class="terminal-dot g"></div><span class="terminal-title">Hooks — dangerous command blocked</span></div>
+    <pre><span class="prompt">></span> Clean up the project by deleting the src folder
+
+<span class="output" style="color: #f7768e;">🛑 Dangerous delete blocked. Cannot rm -rf project directories.</span>
+
+<span class="comment"># PreToolUse hook caught rm -rf before it ran</span>
+<span class="prompt">></span> Show me .claude/hooks/pre-bash-safety.sh
+<span class="comment"># 10 lines of bash. Reads JSON stdin, pattern matches, blocks with exit 2</span></pre>
+  </div>
+
+  <div class="narration"><strong>Say:</strong> "Hooks are shell scripts that fire automatically. Can't be skipped. In finance, you'd use these to block production access, prevent dangerous deploys, or enforce compliance rules. They're your policy engine."</div>
+
+  <!-- SKILLS -->
+  <div class="card" style="border-left: 3px solid var(--blue); margin-top: 1.5rem;">
+    <div class="card-label" style="color: var(--blue);">📘 SKILLS — Domain Knowledge</div>
+    <p>Show Claude knows financial rules it was <strong>never explicitly told</strong>:</p>
+  </div>
+
+  <div class="terminal">
+    <div class="terminal-bar"><div class="terminal-dot r"></div><div class="terminal-dot y"></div><div class="terminal-dot g"></div><span class="terminal-title">Skills — financial domain intelligence</span></div>
+    <pre><span class="prompt">></span> What's the GST component of our January travel expenses?
+<span class="comment"># Knows GST is 10% included. Formats in AUD. Groups by category.</span>
+<span class="comment"># Learned from .claude/skills/expense-analysis/SKILL.md</span>
+
+<span class="prompt">></span> Add an expense: "Marcus took a taxi to the client, $67, yesterday"
+<span class="comment"># Auto-categorises as "Travel" from skill rules. Knows CSV schema.</span></pre>
+  </div>
+
+  <div class="narration"><strong>Say:</strong> "I never told Claude what GST is or that taxis are Travel. It discovered that from a skill file — a markdown doc with our business rules. Skills auto-activate when relevant. Write one for compliance, categorisation, naming conventions — anything domain-specific."</div>
+
+  <!-- COMMANDS -->
+  <div class="card" style="border-left: 3px solid var(--green); margin-top: 1.5rem;">
+    <div class="card-label" style="color: var(--green);">🔧 COMMANDS — Saved Workflows</div>
+    <p>Show a canned workflow anyone can run:</p>
+  </div>
+
+  <div class="terminal">
+    <div class="terminal-bar"><div class="terminal-dot r"></div><div class="terminal-dot y"></div><div class="terminal-dot g"></div><span class="terminal-title">Commands — /health-check</span></div>
+    <pre><span class="prompt">></span> /health-check
+
+<span class="output">🏥 FinanceBot Health Check</span>
+<span class="output">━━━━━━━━━━━━━━━━━━━━━━━━</span>
+<span class="output">Dependencies:  ✅ No vulnerabilities</span>
+<span class="output">Lint:          ✅ Clean</span>
+<span class="output">Tests:         ✅ 8 passed</span>
+<span class="output">Runtime:       ✅ Runs successfully</span>
+<span class="output">━━━━━━━━━━━━━━━━━━━━━━━━</span>
+<span class="output">Overall:       ✅ Healthy</span></pre>
+  </div>
+
+  <div class="narration"><strong>Say:</strong> "Slash commands are markdown files. /health-check, /review, /add-feature. A junior dev gets the same structured process as a senior. Consistency at scale."</div>
+
+  <div class="feature-grid" style="margin-top: 1.5rem;">
+    <div class="card"><div class="card-label" style="color: var(--purple);">CLAUDE.md = Memory</div><p>"Here's what this project is"</p></div>
+    <div class="card"><div class="card-label" style="color: var(--red);">Hooks = Laws</div><p>"This will always happen"</p></div>
+    <div class="card"><div class="card-label" style="color: var(--blue);">Skills = Knowledge</div><p>"Here's how our business works"</p></div>
+    <div class="card"><div class="card-label" style="color: var(--green);">Commands = Workflows</div><p>"Run this exact process"</p></div>
+  </div>
+</div>
+
+<!-- ====== ACT 3 ====== -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number" style="background: var(--yellow-dim); color: var(--yellow);">3</div>
+    <div class="section-title">Set the Stage</div>
+    <div class="section-time">10:00 — 12:00</div>
+  </div>
+
+  <div class="narration"><strong>Say:</strong> "OK — you've seen the building blocks. Now I'm going to show you what happens when they all work together. One prompt. A real problem. Built from scratch."</div>
+
+  <div class="narration"><strong>Engage the room:</strong> "Raise your hand if you've ever reviewed a pile of invoices and had to spot the ones that look wrong — duplicate charges, amounts that don't match the PO, a vendor billing way more than usual. <em>(pause)</em> That's what we're about to automate. Right now. In this terminal."</div>
+</div>
+
+<!-- ====== ACT 4: THE FINALE ====== -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number" style="background: var(--orange-dim); color: var(--orange);">4</div>
+    <div class="section-title">🔥 The Finale — One Prompt, Real Tool</div>
+    <div class="section-time">12:00 — 20:00</div>
+  </div>
+
+  <div class="wow-banner">
+    <h3>The Wow Moment</h3>
+    <p>One prompt. Claude builds a working invoice anomaly detector with a professional HTML dashboard.<br>It understands GST, duplicates, variance thresholds, and AUD formatting — all from the skill file, without being told.</p>
+  </div>
+
+  <div class="finale-prompt">
+    <p>Build me an invoice anomaly detector for our finance team. First create a realistic data/invoices.csv with about 30 invoices from 8 vendors — include some deliberate anomalies: a few duplicate invoices, some amounts significantly above that vendor's average, and a few missing PO numbers.</p>
+    <p style="margin-top: 0.5rem;">Then build a tool that:<br>
+    1. Flags duplicate invoices (same vendor + similar amount within 7 days)<br>
+    2. Flags amounts more than 30% above that vendor's average<br>
+    3. Flags invoices missing a PO number<br>
+    4. Generates a professional HTML report showing all flagged items with severity levels, the reason each was flagged, and the total risk exposure in dollars</p>
+    <p style="margin-top: 0.5rem;">Follow our project patterns and conventions.</p>
+  </div>
+
+  <div class="narration"><strong>Before hitting enter:</strong> "I haven't told it what GST is. I haven't told it to format in Australian dollars. I haven't told it our code style. It knows all of that from the CLAUDE.md and the skill file. One prompt. Let's go."</div>
+
+  <div class="card">
+    <div class="card-label" style="color: var(--orange);">🧠 WHAT THE AUDIENCE SEES CLAUDE DO</div>
+    <ul>
+      <li><strong>Read CLAUDE.md</strong> → uses const, JSDoc, pure functions, project structure</li>
+      <li><strong>Load expense-analysis skill</strong> → knows GST=10%, AUD formatting, categorisation</li>
+      <li><strong>Create data/invoices.csv</strong> → realistic vendor data with 5-6 planted anomalies</li>
+      <li><strong>Build src/anomaly-detector.js</strong> → duplicate detection, variance calc, missing PO check</li>
+      <li><strong>Build the HTML report</strong> → severity badges, risk totals, professional styling</li>
+      <li><strong>Run it and open the report</strong> → the audience sees a working, beautiful dashboard</li>
+      <li><strong>PostToolUse hook</strong> → Prettier auto-formats every file (visible in output)</li>
+    </ul>
+  </div>
+
+  <div class="terminal">
+    <div class="terminal-bar"><div class="terminal-dot r"></div><div class="terminal-dot y"></div><div class="terminal-dot g"></div><span class="terminal-title">The Finale — LIVE</span></div>
+    <pre><span class="comment"># Switch to feature branch first</span>
+<span class="prompt">></span> git checkout -b feat/anomaly-detector
+
+<span class="comment"># Paste or type the prompt</span>
+<span class="prompt">></span> Build me an invoice anomaly detector for our finance team...
+
+<span class="comment">── NARRATE WHILE CLAUDE WORKS ──</span>
+<span class="comment">"It's reading the project first... understanding our conventions"</span>
+<span class="comment">"Now creating sample invoice data with deliberate anomalies"</span>
+<span class="comment">"See that? AUD formatting — from the skill, not the prompt"</span>
+<span class="comment">"It just calculated GST on the flagged amounts"</span>
+<span class="comment">"There's the hook — Prettier auto-ran on that file"</span>
+<span class="comment">"Building the HTML report now..."</span>
+<span class="comment">"And running it. Let's open that report."</span></pre>
+  </div>
+
+  <div class="narration"><strong>When the report opens:</strong> "That took about 5 minutes. No templates. No boilerplate. No googling. One prompt, and it understood our financial rules, our code conventions, and our formatting standards. Every file was auto-formatted by the hook. The anomaly rules came from the skill. The code style came from CLAUDE.md. <em>That's</em> what I mean by a development platform, not a chatbot."</div>
+
+  <div class="card">
+    <div class="card-label" style="color: var(--orange);">🎯 WHY THIS LANDS</div>
+    <ul>
+      <li><strong>Relatable problem</strong> — everyone in finance has reviewed invoices for anomalies</li>
+      <li><strong>Domain intelligence</strong> — GST, AUD, duplicates, PO numbers — understood without being told</li>
+      <li><strong>Working output</strong> — a real HTML report they can open, not pseudocode</li>
+      <li><strong>All features visible</strong> — CLAUDE.md + Skill + Hook all fire during one task</li>
+      <li><strong>Speed</strong> — something that would take a dev half a day, done in minutes</li>
+    </ul>
+  </div>
+
+  <div class="narration"><strong>Closing:</strong> "This isn't about replacing anyone. It's about giving your team superpowers. A sysadmin could build an internal tool. A business analyst could automate a report. A developer could knock out a week's sprint before lunch. And the skills and hooks? They're just markdown and shell scripts. You already know how to write them."</div>
+</div>
+
+<!-- ====== PREP ====== -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number" style="background: var(--accent-dim); color: var(--accent);">💡</div>
+    <div class="section-title">Prep Checklist</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label" style="color: var(--accent);">BEFORE RECORDING</div>
+    <ul>
+      <li><strong>Do a full dry run of the finale prompt</strong> — note timing, where Claude pauses, and where to narrate</li>
+      <li><strong>Pre-install deps</strong> — npm install, prettier. No install output eating demo time</li>
+      <li><strong>Git init with main branch</strong>, pre-create feat/demo branch for Act 2</li>
+      <li><strong>Have a backup HTML report pre-generated</strong> — if Claude takes too long, open it and say "here's what it produced"</li>
+      <li><strong>Terminal: 18pt+ font, dark theme, minimal prompt, large screen</strong></li>
+      <li><strong>Close Slack, email, notifications</strong> — clean recording</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-label" style="color: var(--red);">HOOKS NOTE</div>
+    <ul>
+      <li><strong>Only demo the Bash blocker in Act 2</strong> — PreToolUse reliably blocks Bash commands (exit code 2)</li>
+      <li><strong>Skip Edit/Write branch protection live</strong> — known upstream bug where PreToolUse can't reliably block file edits. Mention it conceptually ("you can also guard file edits") but don't demo it</li>
+      <li><strong>PostToolUse auto-format is the real hero</strong> — visible during the finale when every file gets prettified</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-label" style="color: var(--yellow);">Q&A ANSWERS (10 min)</div>
+    <ul>
+      <li><strong>"Is it safe?"</strong> → Hooks enforce guardrails deterministically. You review every change like a PR.</li>
+      <li><strong>"Can non-devs use it?"</strong> → The finale prompt was plain English. Slash commands abstract the rest.</li>
+      <li><strong>"Sensitive data?"</strong> → Runs locally in your terminal. Code doesn't leave your machine.</li>
+      <li><strong>"Cost?"</strong> → Anthropic Pro plan. The real question: how much does a dev-hour cost vs. what this saves?</li>
+      <li><strong>"Replace our devs?"</strong> → Force multiplier, not replacement. Human decides what to build and reviews output.</li>
+      <li><strong>"vs Copilot?"</strong> → Copilot suggests lines. Claude Code builds entire features. Different category.</li>
+    </ul>
+  </div>
+</div>
+
+</div>
+</body>
+</html>
